@@ -6,18 +6,48 @@ This file provides guidance for AI agents working on the Fractal Boston website.
 
 This is a **static website** built with vanilla HTML, CSS, and minimal JavaScript:
 - No build process, frameworks, or package managers
-- Main file: `index.html`
+- Multi-page structure with shared navigation
 - Styles: `styles.css` (custom) + `normalize.css` (reset)
 - Deployment: GitHub Pages (via `CNAME` file)
 
 ## Site Structure
 
+The site is organized into multiple pages with consistent navigation:
+
+### Pages
+
+| Page | Path | Purpose |
+|------|------|---------|
+| **Home** | `/index.html` | Landing page with hero, activity highlights, and CTAs |
+| **Activities** | `/activities/index.html` | Detailed activities (dinners, FBU, coworking) + calendar |
+| **About** | `/about/index.html` | Origin story, testimonial, and subscribe form |
+
+### Navigation
+
+All pages share a consistent navigation bar in the header:
+```html
+<nav>
+  <a href="/" class="active">Home</a>
+  <span class="nav-separator">✦</span>
+  <a href="/activities">Activities</a>
+  <span class="nav-separator">✦</span>
+  <a href="/about">About</a>
+</nav>
+```
+- Add `class="active"` to the current page's link
+- Use absolute paths (`/activities`, not `activities/`)
+
+### Page Layout
+
+Each page uses this structure:
+- **Header**: H1 title (linked to home) + navigation bar
+- **Content**: Page-specific sections
+- **Footer**: Minimal or empty
+
 The site uses a card-based layout with organic, playful shapes:
-- **Header**: H1 title with floating decorative elements
-- **Hero Section**: Main CTA and community description
-- **Activities Section**: Multiple subsections (dinners, classes, coworking, etc.)
-- **Luma Calendar**: Event calendar subscription
-- **Stay Connected**: Newsletter signup and contact info
+- Subtle gradients with green tints (`#f0fdf4`)
+- Irregular border-radius values
+- Decorative shapes and floating animations
 
 ## Styling Patterns & Conventions
 
@@ -172,6 +202,39 @@ Follow the pattern in `.activities-section`:
 - **Keep animations subtle**: Site uses gentle float/wobble animations
 
 ## Learnings from Recent Sessions
+
+### Session: Multi-Page Site Restructure (Mar 2026)
+
+**Task**: Split single-page site into multiple pages with navigation
+
+**Changes Made**:
+1. Created `/activities/index.html` with all activities content + calendar
+2. Created `/about/index.html` with origin story, testimonial, and subscribe form
+3. Added navigation bar to all pages (header after h1)
+4. Condensed home page to hero + highlights grid + CTA section
+5. Added navigation CSS styles (`.nav`, `.nav a`, `.nav-separator`)
+6. Added home page highlight styles (`.highlights-grid`, `.highlight-item`)
+
+**Key Insights**:
+- Use absolute paths in nav (`/activities` not `activities/`)
+- Mark current page with `class="active"` on nav link
+- Each page needs its own `<head>` with appropriate title/meta
+- JavaScript for forms needs to be duplicated on pages that use them
+- Home page should be focused and punchy - detailed content goes on subpages
+
+**New CSS Classes Added**:
+```css
+/* Navigation */
+nav { display: flex; justify-content: center; gap: 0.5rem; }
+nav a { padding: 0.8rem 1.6rem; border-radius: organic; }
+nav a.active { background: var(--main-color); color: white; }
+nav .nav-separator { color: var(--main-color); opacity: 0.3; }
+
+/* Home highlights grid */
+.highlights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.highlight-item { text-align: center; }
+.highlight-icon { font-size: 3.5rem; }
+```
 
 ### Session: Discord Links & Luma Calendar Styling (Jan 2026)
 

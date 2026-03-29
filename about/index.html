@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About | Fractal Boston</title>
+    <meta
+      name="description"
+      content="The story behind Fractal Boston and how we're building community"
+    />
+    <meta name="keywords" content="fractal, boston, community, about" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="About | Fractal Boston" />
+    <meta
+      name="twitter:description"
+      content="The story behind Fractal Boston and how we're building community"
+    />
+    <meta
+      name="twitter:image"
+      content="https://fractal.boston/img/logo-square.png"
+    />
+    <meta property="og:title" content="About | Fractal Boston" />
+    <meta
+      property="og:description"
+      content="The story behind Fractal Boston and how we're building community"
+    />
+    <meta
+      property="og:image"
+      content="https://fractal.boston/img/logo-square.png"
+    />
+    <meta property="og:url" content="https://fractal.boston/about" />
+    <meta property="og:type" content="website" />
+
+    <link rel="shortcut icon" href="/img/logo-square.png" />
+    <link rel="stylesheet" href="/normalize.css" />
+    <link rel="stylesheet" href="/styles.css" />
+
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-523DXHRFKR"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-523DXHRFKR");
+    </script>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1><a href="/">Fractal Boston</a></h1>
+        <nav>
+          <a href="/">Home</a>
+          <span class="nav-separator">✦</span>
+          <a href="/activities">Activities</a>
+          <span class="nav-separator">✦</span>
+          <a href="/about" class="active">About</a>
+        </nav>
+      </header>
+
+      <h2>It seems to be working!</h2>
+      <div class="member-story card">
+        <img src="/img/celia.png" alt="Celia" class="member-photo" />
+        <div class="story-content">
+          <h4>Celia's Story</h4>
+          <blockquote>
+            &ldquo;I was planning on living in a series of cities for six weeks each to decide where I wanted to settle down. After finding Fractal Boston, I canceled that plan and signed a year-long lease. The community is a large part of why I chose to live here.&rdquo;
+          </blockquote>
+          <p class="attribution">— Celia, Fractal regular</p>
+        </div>
+      </div>
+
+      <h2>Where&rsquo;d this idea come from?</h2>
+      <div class="origin-block card">
+        <p>
+          <a href="https://fractalnyc.com" target="_blank" rel="noopener">Fractal NYC</a> started in 2021 when Priya and Andrew created a community of artists, technologists, and humanists who wanted to live near each other. They grew to over 1000 members with events, classes, coworking spaces, and even got apartments in the same building.
+        </p>
+        <p>
+          With Andew and Priya's blessing (and advice!), we're running that same playbook and trying to bring that magic to Boston. Wanna help? Join us!
+        </p>
+        <p>
+          Find more information, including past newsletters and course offerings, on the <a href="https://fractalboston.substack.com/" target="_blank" rel="noopener noreferrer">Fractal Boston Substack</a>.
+        </p>
+      </div>
+
+      <div class="stay-connected card">
+        <div id="footerSignupContent">
+          <h3>Be In Touch</h3>
+          <p>
+            <strong>Ready to join?</strong> <a href="/calendar" target="_blank" rel="noopener noreferrer nofollow">Come to an event</a>
+          </p>
+          <p>
+            <strong>Just curious?</strong> Subscribe for updates about events and what we&rsquo;re building:
+          </p>
+          <div id="footerFormContainer" class="center">
+            <form id="footerSubscribeForm" action="javascript:void(0);" method="post" novalidate>
+              <div class="form-group">
+                <input type="email" id="footerEmail" name="email" required placeholder="name@domain.com" />
+                <div id="footerEmailSuggestion" class="email-suggestion"></div>
+              </div>
+              <div class="submit-button-container">
+                <div class="submit-cta">
+                  <button type="submit">✨ Subscribe ✨</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div id="footerConfirmationMessage" class="confirmation-message" style="display: none;">
+          <h3>Check your email!</h3>
+          <p>Let&rsquo;s make sure our emails can reach you.</p>
+          <p>Please check your email and click the verification link.</p>
+        </div>
+      </div>
+
+      <footer></footer>
+    </main>
+
+    <script type="module">
+      import emailSpellChecker from 'https://cdn.jsdelivr.net/npm/@zootools/email-spell-checker@1.12.0/+esm';
+      const transitionMs = 300;
+      const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+      const API_URL = isLocalhost
+        ? "http://localhost:3000/api/subscribe"
+        : "https://fractal-boston-events.vercel.app/api/subscribe";
+
+      function triggerJiggle(input) {
+        input.classList.add('jiggle');
+        input.addEventListener('animationend', function onEnd() {
+          input.classList.remove('jiggle');
+          input.removeEventListener('animationend', onEnd);
+        }, { once: true });
+      }
+
+      function renderError(container) {
+        const errorMessage = document.createElement('div');
+        errorMessage.className = 'error-message';
+        errorMessage.style.color = '#ff4444';
+        errorMessage.style.marginTop = '1rem';
+        errorMessage.textContent = 'Failed to subscribe. Please try again later.';
+
+        const existingError = container.querySelector('.error-message');
+        if (existingError) existingError.remove();
+        container.appendChild(errorMessage);
+
+        setTimeout(() => errorMessage.remove(), 5000);
+      }
+
+      async function submitSubscription(email) {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        });
+
+        const data = await response.json();
+        if (!response.ok || !data.success) {
+          throw new Error(data.error || 'Failed to subscribe');
+        }
+      }
+
+      function setupSubscribeForm(options) {
+        const {
+          formId,
+          emailInputId,
+          formContainerId,
+          confirmationId,
+          eventLabel,
+          suggestionId,
+          signupContentId,
+          lockCardSelector,
+          confirmationDisplay = 'block',
+        } = options;
+
+        const form = document.getElementById(formId);
+        const emailInput = document.getElementById(emailInputId);
+        const formContainer = document.getElementById(formContainerId) || form;
+        const confirmationMessage = document.getElementById(confirmationId);
+        const signupContent = signupContentId ? document.getElementById(signupContentId) : null;
+        const lockCard = lockCardSelector ? form?.closest(lockCardSelector) : null;
+
+        if (!form || !emailInput || !formContainer || !confirmationMessage) {
+          return;
+        }
+
+        if (suggestionId) {
+          const suggestionContainer = document.getElementById(suggestionId);
+          if (suggestionContainer) {
+            emailInput.addEventListener('blur', function () {
+              const suggestion = emailSpellChecker.run({ email: emailInput.value });
+              if (suggestion) {
+                suggestionContainer.innerHTML =
+                  'Did you mean <a href="#" class="email-suggestion-link">' + suggestion.full + '</a>?';
+                const suggestionLink = suggestionContainer.querySelector('.email-suggestion-link');
+                suggestionLink.addEventListener('click', function (event) {
+                  event.preventDefault();
+                  emailInput.value = suggestion.full;
+                  suggestionContainer.innerHTML = '';
+                });
+              } else {
+                suggestionContainer.innerHTML = '';
+              }
+            });
+          }
+        }
+
+        form.addEventListener('submit', async function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          const email = emailInput.value.trim();
+          if (!email) {
+            triggerJiggle(emailInput);
+            return;
+          }
+
+          const submitButton = form.querySelector('button[type="submit"]');
+          submitButton.disabled = true;
+          submitButton.textContent = 'Subscribing...';
+
+          if (typeof gtag !== 'undefined') {
+            gtag("event", "form_submit", {
+              event_category: "engagement",
+              event_label: eventLabel,
+            });
+          }
+
+          try {
+            await submitSubscription(email);
+
+            if (lockCard) {
+              lockCard.style.minHeight = lockCard.offsetHeight + 'px';
+            }
+
+            if (signupContent) {
+              signupContent.style.opacity = '0';
+              signupContent.style.transition = 'opacity 0.3s ease-out';
+              setTimeout(() => {
+                signupContent.style.display = 'none';
+                confirmationMessage.style.display = confirmationDisplay;
+              }, transitionMs);
+              return;
+            }
+
+            formContainer.style.opacity = '0';
+            formContainer.style.transition = 'opacity 0.3s ease-out';
+            setTimeout(() => {
+              formContainer.style.display = 'none';
+              confirmationMessage.style.display = confirmationDisplay;
+            }, transitionMs);
+          } catch (error) {
+            console.error('Subscription error:', error);
+            submitButton.disabled = false;
+            submitButton.textContent = '✨ Subscribe ✨';
+            renderError(formContainer);
+          }
+        });
+      }
+
+      setupSubscribeForm({
+        formId: 'footerSubscribeForm',
+        emailInputId: 'footerEmail',
+        formContainerId: 'footerFormContainer',
+        confirmationId: 'footerConfirmationMessage',
+        eventLabel: 'About Page Subscribe Form Submission',
+        suggestionId: 'footerEmailSuggestion',
+        signupContentId: 'footerSignupContent',
+        lockCardSelector: '.stay-connected',
+        confirmationDisplay: 'flex',
+      });
+    </script>
+  </body>
+</html>
