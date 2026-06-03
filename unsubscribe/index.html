@@ -114,8 +114,20 @@
           ? "http://localhost:3000/api/unsubscribe"
           : "https://fractal-boston-events.vercel.app/api/unsubscribe";
 
+        function normalizeToken(raw) {
+          const trimmed = raw.trim();
+          if (
+            /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}-+$/i.test(
+              trimmed
+            )
+          ) {
+            return trimmed.replace(/-+$/, "");
+          }
+          return trimmed;
+        }
+
         const params = new URLSearchParams(window.location.search);
-        const token = params.get("token");
+        const token = normalizeToken(params.get("token") || "");
 
         const confirmState = document.getElementById("confirmState");
         const loadingState = document.getElementById("loadingState");
