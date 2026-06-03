@@ -631,6 +631,84 @@ a:hover {
   border-radius: 0;
 }
 
+.values-section h3::after {
+  transform: scaleX(0.6) rotate(-0.8deg);
+}
+
+.values-block-1 {
+  background: linear-gradient(105deg, #fefefe 0%, #f0fdf4 100%);
+  border-radius: 18px 35px 22px 28px / 32% 25% 40% 35%;
+}
+
+.values-block-2 {
+  background: linear-gradient(285deg, #fefefe 0%, #f0fdf4 100%);
+  border-radius: 22px 30px 18px 35px / 28% 35% 32% 25%;
+}
+
+.values-block-3 {
+  background: linear-gradient(165deg, #fefefe 0%, #f0fdf4 100%);
+  border-radius: 30px 18px 35px 22px / 35% 28% 25% 40%;
+}
+
+.values-block-4 {
+  background: linear-gradient(225deg, #fefefe 0%, #f0fdf4 100%);
+  border-radius: 25px 38px 20px 32px / 30% 22% 38% 30%;
+}
+
+.values-block-5 {
+  background: linear-gradient(75deg, #fefefe 0%, #f0fdf4 100%);
+  border-radius: 35px 22px 28px 18px / 25% 40% 28% 35%;
+}
+
+.values-block-6 {
+  background: linear-gradient(315deg, #fefefe 0%, #f0fdf4 100%);
+  border-radius: 20px 32px 38px 25px / 38% 30% 22% 28%;
+}
+
+.guide-section h3::after {
+  transform: scaleX(0.6) rotate(-0.8deg);
+}
+
+.guide-block-1 {
+  background: linear-gradient(105deg, #fefefe 0%, #f0fdf4 100%);
+  border-radius: 18px 35px 22px 28px / 32% 25% 40% 35%;
+}
+
+.guide-block-2 {
+  background: linear-gradient(285deg, #fefefe 0%, #f0fdf4 100%);
+  border-radius: 22px 30px 18px 35px / 28% 35% 32% 25%;
+}
+
+.guide-block-3 {
+  background: linear-gradient(165deg, #fefefe 0%, #f0fdf4 100%);
+  border-radius: 30px 18px 35px 22px / 35% 28% 25% 40%;
+}
+
+.guide-block-4 {
+  background: linear-gradient(225deg, #fefefe 0%, #f0fdf4 100%);
+  border-radius: 25px 38px 20px 32px / 30% 22% 38% 30%;
+}
+
+.guide-block-5 {
+  background: linear-gradient(75deg, #fefefe 0%, #f0fdf4 100%);
+  border-radius: 35px 22px 28px 18px / 25% 40% 28% 35%;
+}
+
+.guide-block-6 {
+  background: linear-gradient(315deg, #fefefe 0%, #f0fdf4 100%);
+  border-radius: 20px 32px 38px 25px / 38% 30% 22% 28%;
+}
+
+.guide-block h4 {
+  font-size: 1.8rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.guide-block h4:first-of-type {
+  margin-top: 1rem;
+}
+
 /* ==========================================
    MEMBER STORIES & TESTIMONIALS
    ========================================== */
@@ -823,11 +901,13 @@ ul {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+  list-style: none;
+  padding-left: 0;
 }
 
 ul li {
   position: relative;
-  padding-left: 1.5rem;
+  padding-left: 2.5rem;
 }
 
 ul li::before {
