@@ -431,7 +431,7 @@ a:hover {
 }
 
 .home-highlights h2 {
-  margin-top: 3rem;
+  margin-top: 6rem;
   margin-bottom: 2rem;
 }
 
@@ -469,6 +469,11 @@ a:hover {
   margin: 0;
   color: #666;
   line-height: 1.5;
+}
+
+.highlights-cta {
+  grid-column: 1 / -1;
+  margin: 1rem 0 0 0;
 }
 
 .home-cta-section {
