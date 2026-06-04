@@ -85,7 +85,7 @@
         <nav>
           <a href="/" class="active">Home</a>
           <span class="nav-separator">✦</span>
-          <a href="/activities">Activities</a>
+          <a href="/activities">Gatherings</a>
           <span class="nav-separator">✦</span>
           <a href="/values">Values</a>
           <span class="nav-separator">✦</span>
@@ -111,28 +111,9 @@
           </p>
 
           <div id="heroCtaContainer" class="buttons">
-            <a href="/join" class="main-cta" id="interestFormLink">
-              <button class="block accent">✨ Join our newsletter ✨</button>
+            <a href="https://luma.com/fractalboston" class="main-cta">
+              <button class="block accent">📅 See upcoming events</button>
             </a>
-          </div>
-
-          <div id="heroFormContainer" class="center">
-            <form id="heroSubscribeForm" action="javascript:void(0);" method="post" novalidate>
-              <div class="form-group">
-                <input type="email" id="heroEmail" name="email" required placeholder="name@domain.com" />
-              </div>
-              <div class="submit-button-container">
-                <div class="submit-cta">
-                  <button type="submit">✨ Subscribe ✨</button>
-                </div>
-              </div>
-            </form>
-          </div>
-
-          <div id="heroConfirmationMessage" class="confirmation-message" style="display: none;">
-            <h3>Check your email!</h3>
-            <p>Let&rsquo;s make sure our emails can reach you.</p>
-            <p>Please check your email and click the verification link.</p>
           </div>
         </div>
       </div>
@@ -164,12 +145,32 @@
       </div>
 
       <div class="home-cta-section card">
-        <h3>Ready to hang?</h3>
-        <p>Check out our upcoming events or learn more about our community.</p>
-        <div class="buttons">
-          <a href="https://luma.com/fractalboston" style="text-decoration: none;">
-            <button class="block accent">📅 See upcoming events</button>
+        <div id="newsletterCtaContainer">
+          <h3>Stay in the loop</h3>
+          <p>Get a weekly email with updates about upcoming events and what we&rsquo;re building.</p>
+          <a href="/join" class="newsletter-cta" id="interestFormLink">
+            <button class="block accent">✨ Join our newsletter ✨</button>
           </a>
+        </div>
+
+        <div id="heroFormContainer" class="center">
+          <button type="button" class="form-close-button" id="heroFormClose" aria-label="Close newsletter signup">&times;</button>
+          <form id="heroSubscribeForm" action="javascript:void(0);" method="post" novalidate>
+            <div class="form-group">
+              <input type="email" id="heroEmail" name="email" required placeholder="name@domain.com" />
+            </div>
+            <div class="submit-button-container">
+              <div class="submit-cta">
+                <button type="submit">✨ Subscribe ✨</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div id="heroConfirmationMessage" class="confirmation-message" style="display: none;">
+          <h3>Check your email!</h3>
+          <p>Let&rsquo;s make sure our emails can reach you.</p>
+          <p>Please check your email and click the verification link.</p>
         </div>
       </div>
 
@@ -278,10 +279,11 @@
       }
 
       const interestFormLink = document.getElementById("interestFormLink");
-      const heroCtaContainer = document.getElementById("heroCtaContainer");
+      const newsletterCtaContainer = document.getElementById("newsletterCtaContainer");
       const heroFormContainer = document.getElementById("heroFormContainer");
+      const heroFormClose = document.getElementById("heroFormClose");
 
-      if (interestFormLink && heroCtaContainer && heroFormContainer) {
+      if (interestFormLink && newsletterCtaContainer && heroFormContainer) {
         interestFormLink.addEventListener("click", function (e) {
           e.preventDefault();
 
@@ -296,11 +298,11 @@
             return;
           }
 
-          heroCtaContainer.style.opacity = '0';
-          heroCtaContainer.style.transition = 'opacity 0.3s ease-out';
+          newsletterCtaContainer.style.opacity = '0';
+          newsletterCtaContainer.style.transition = 'opacity 0.3s ease-out';
 
           setTimeout(() => {
-            heroCtaContainer.style.display = 'none';
+            newsletterCtaContainer.style.display = 'none';
             heroFormContainer.style.display = 'block';
             heroFormContainer.style.opacity = '0';
             requestAnimationFrame(() => {
@@ -312,6 +314,23 @@
             if (heroEmail) {
               heroEmail.focus();
             }
+          }, transitionMs);
+        });
+      }
+
+      if (heroFormClose && newsletterCtaContainer && heroFormContainer) {
+        heroFormClose.addEventListener("click", function () {
+          heroFormContainer.style.opacity = '0';
+          heroFormContainer.style.transition = 'opacity 0.3s ease-out';
+
+          setTimeout(() => {
+            heroFormContainer.style.display = 'none';
+            newsletterCtaContainer.style.display = 'block';
+            newsletterCtaContainer.style.opacity = '0';
+            requestAnimationFrame(() => {
+              newsletterCtaContainer.style.transition = 'opacity 0.3s ease-in';
+              newsletterCtaContainer.style.opacity = '1';
+            });
           }, transitionMs);
         });
       }

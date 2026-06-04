@@ -491,6 +491,17 @@ a:hover {
   margin-bottom: 2rem;
 }
 
+.newsletter-cta {
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.newsletter-cta .block {
+  padding-top: 0.9rem;
+  padding-bottom: 0.9rem;
+}
+
 .home-cta-section .buttons {
   gap: 1.5rem;
 }
@@ -528,6 +539,7 @@ a:hover {
 }
 
 #heroCtaContainer,
+#newsletterCtaContainer,
 #heroFormContainer {
   transition: opacity 0.3s ease-out;
 }
@@ -537,6 +549,29 @@ a:hover {
   opacity: 0;
   max-width: 550px;
   margin: 0 auto;
+  position: relative;
+  padding-top: 1.8rem;
+}
+
+.form-close-button {
+  position: absolute;
+  top: -0.4rem;
+  right: 0;
+  width: 3.2rem;
+  height: 3.2rem;
+  border: 0;
+  background: transparent;
+  color: var(--main-color);
+  cursor: pointer;
+  font-size: 2.8rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.form-close-button:hover,
+.form-close-button:focus {
+  color: #047857;
+  outline: none;
 }
 
 #heroSubscribeForm input[type="email"] {
