@@ -98,7 +98,7 @@
       <div class="values-section">
       <h2>Fractal Values and Guidelines</h2>
 
-      <h3>What we are</h3>
+      <h3 id="what-we-are">What we are</h3>
       <div class="values-block values-block-1 card">
         <p>
           Fractal is a social community. We host events like coworking, dinners, bar nights, walks, and classes.
@@ -108,7 +108,7 @@
         </p>
       </div>
 
-      <h3>Who it&rsquo;s for</h3>
+      <h3 id="who-its-for">Who it&rsquo;s for</h3>
       <div class="values-block values-block-2 card">
         <p>Fractal exists for people who wish to:</p>
         <ul>
@@ -119,7 +119,7 @@
         </ul>
       </div>
 
-      <h3>What a good Fractalite looks like</h3>
+      <h3 id="what-a-good-fractalite-looks-like">What a good Fractalite looks like</h3>
       <div class="values-block values-block-3 card">
         <p>
           A good Fractal member is social. They are curious about other people and eager to share themselves. They push themselves to be a bit more vulnerable and honest than usual.
@@ -132,7 +132,7 @@
         </p>
       </div>
 
-      <h3>How to join</h3>
+      <h3 id="how-to-join">How to join</h3>
       <div class="values-block values-block-4 card">
         <p>
           You become a Fractal member by attending events and contributing back. Just find some events on our <a href="https://luma.com/fractalboston">shared calendar</a> and start showing up.
@@ -145,7 +145,7 @@
         </p>
       </div>
 
-      <h3>Who&rsquo;s in charge?</h3>
+      <h3 id="whos-in-charge">Who&rsquo;s in charge?</h3>
       <div class="values-block values-block-5 card">
         <p>
           Fractal operates in a fairly distributed fashion.
@@ -158,7 +158,7 @@
         </p>
       </div>
 
-      <h3>Do-ocracy</h3>
+      <h3 id="do-ocracy">Do-ocracy</h3>
       <div class="values-block values-block-6 card">
         <p>
           Fractal is a do-ocracy. If you want something to exist, just make it!
@@ -171,7 +171,7 @@
         </p>
       </div>
 
-      <h3>How to host an event</h3>
+      <h3 id="how-to-host-an-event">How to host an event</h3>
       <div class="values-block values-block-7 card">
         <p>
           Go to a few Fractal events so you get a sense of the vibe. Then, just make an event on Luma or Partiful.
@@ -187,5 +187,102 @@
 
       <footer></footer>
     </main>
+    <script>
+      (function () {
+        var linkIcon =
+          '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.1 0l2.8-2.8a5 5 0 0 0-7.1-7.1l-1.6 1.6"></path><path d="M14 11a5 5 0 0 0-7.1 0l-2.8 2.8a5 5 0 0 0 7.1 7.1l1.6-1.6"></path></svg>';
+
+        function copyTextFallback(text) {
+          var textarea = document.createElement("textarea");
+          textarea.value = text;
+          textarea.setAttribute("readonly", "");
+          textarea.style.position = "fixed";
+          textarea.style.top = "-9999px";
+          document.body.appendChild(textarea);
+          textarea.select();
+
+          try {
+            return Promise.resolve(document.execCommand("copy"));
+          } finally {
+            document.body.removeChild(textarea);
+          }
+        }
+
+        function copyText(text) {
+          if (navigator.clipboard && window.isSecureContext) {
+            return navigator.clipboard.writeText(text).then(
+              function () {
+                return true;
+              },
+              function () {
+                return copyTextFallback(text);
+              }
+            );
+          }
+
+          return Promise.resolve(copyTextFallback(text));
+        }
+
+        document
+          .querySelectorAll(".values-section h3[id]")
+          .forEach(function (heading) {
+            var id = heading.id;
+            var label = heading.textContent.replace(/\s+/g, " ").trim();
+            var wrapper = document.createElement("span");
+            var selfLink = document.createElement("a");
+            var copyButton = document.createElement("button");
+
+            wrapper.className = "heading-anchor";
+            selfLink.className = "heading-self-link";
+            selfLink.href = "#" + id;
+            selfLink.textContent = label;
+
+            copyButton.className = "heading-copy-link";
+            copyButton.type = "button";
+            copyButton.dataset.anchorId = id;
+            copyButton.dataset.anchorLabel = label;
+            copyButton.setAttribute("aria-label", "Copy link to " + label);
+            copyButton.title = "Copy link";
+            copyButton.innerHTML = linkIcon;
+
+            wrapper.appendChild(selfLink);
+            wrapper.appendChild(copyButton);
+            heading.textContent = "";
+            heading.appendChild(wrapper);
+          });
+
+        document.addEventListener("click", function (event) {
+          var copyButton = event.target.closest(".heading-copy-link");
+          if (!copyButton) {
+            return;
+          }
+
+          event.preventDefault();
+          var url = new URL(window.location.href);
+          url.hash = copyButton.dataset.anchorId;
+
+          copyText(url.toString()).then(function (copied) {
+            if (!copied) {
+              return;
+            }
+
+            var originalLabel = copyButton.getAttribute("aria-label");
+            var originalTitle = copyButton.title;
+            copyButton.classList.add("copied");
+            copyButton.setAttribute(
+              "aria-label",
+              "Copied link to " + copyButton.dataset.anchorLabel
+            );
+            copyButton.title = "Copied";
+
+            window.setTimeout(function () {
+              copyButton.classList.remove("copied");
+              copyButton.setAttribute("aria-label", originalLabel);
+              copyButton.title = originalTitle;
+            }, 1400);
+          });
+        });
+      })();
+    </script>
   </body>
 </html>

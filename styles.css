@@ -159,6 +159,89 @@ h2 {
   font-weight: bold;
 }
 
+h3[id] {
+  scroll-margin-top: 2rem;
+}
+
+.heading-anchor {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.6rem;
+  max-width: 100%;
+  position: relative;
+}
+
+.heading-self-link {
+  color: inherit;
+  min-width: 0;
+  text-decoration: none;
+}
+
+.heading-self-link:hover,
+.heading-self-link:focus {
+  color: inherit;
+  text-decoration: none;
+}
+
+.heading-self-link:focus-visible {
+  outline: 2px solid rgba(5, 150, 105, 0.35);
+  outline-offset: 0.4rem;
+  border-radius: 3px;
+}
+
+.heading-copy-link {
+  -webkit-appearance: none;
+  appearance: none;
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  color: var(--main-color);
+  cursor: pointer;
+  display: inline-flex;
+  flex: 0 0 auto;
+  height: 2.8rem;
+  justify-content: center;
+  opacity: 0;
+  padding: 0;
+  pointer-events: none;
+  transition: background 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+  width: 2.8rem;
+}
+
+.heading-copy-link svg {
+  display: block;
+  height: 1.6rem;
+  width: 1.6rem;
+}
+
+.heading-anchor:hover .heading-copy-link,
+.heading-self-link:focus-visible + .heading-copy-link {
+  opacity: 0.65;
+  pointer-events: auto;
+}
+
+.heading-copy-link:hover,
+.heading-copy-link:focus-visible,
+.heading-copy-link.copied {
+  background: rgba(5, 150, 105, 0.1);
+  color: #047857;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.heading-copy-link:focus-visible {
+  outline: 2px solid rgba(5, 150, 105, 0.35);
+  outline-offset: 2px;
+}
+
+@media (hover: none) {
+  .heading-copy-link {
+    opacity: 0.65;
+    pointer-events: auto;
+  }
+}
+
 
 h3 {
   color: var(--main-color);
@@ -166,6 +249,10 @@ h3 {
   margin: 4rem 0 2rem;
   position: relative;
   display: inline-block;
+}
+
+h3[id]::after {
+  right: 3.4rem;
 }
 
 h3::after {
