@@ -27,6 +27,10 @@ Since this is a static site with no build process:
 - Test by opening `index.html` in a browser or using a local server
 - No package manager, dependencies, or build commands
 
+## Workflow
+
+- When you complete a discrete bit of work, commit and push it without being asked. Commits are easy to revert and the site is not critical, so default to shipping rather than waiting for explicit approval.
+
 ## Deployment
 
 The site appears to be deployed via GitHub Pages (based on `CNAME` file presence).

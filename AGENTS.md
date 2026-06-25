@@ -156,7 +156,7 @@ h3::after {
 </a>
 ```
 
-**Current main CTAs link to**: `https://fractal.boston/discord`
+**Note**: Do NOT add links to `/discord` or any Discord URL anywhere on the site. Access to the Discord is intentionally word-of-mouth only — people should hear about it from a person at a live event. Discord may be *mentioned* in copy where it makes sense, but never *linked*. The `/discord` redirect (`discord/index.html`) stays in place so members told the URL in person can get in.
 
 #### Secondary CTA (Block Button)
 
@@ -176,7 +176,7 @@ h3::after {
 The site uses two main link patterns:
 
 1. **External links**: Always include `target="_blank" rel="noopener noreferrer nofollow"`
-2. **Discord invite**: Use `https://fractal.boston/discord` (canonical URL, not direct Discord link)
+2. **Discord**: Never link to the Discord (`/discord` or any Discord URL). It's word-of-mouth only — see the CTA note above.
 
 ## Common Tasks
 
