@@ -1,2 +1,5 @@
 # Claude Code local settings
 .claude/
+
+# Amp orb portal metadata
+.amp/portals/*

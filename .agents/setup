@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+step() {
+  local name="$1"
+  shift
+  printf '==> %s\n' "$name"
+  time "$@"
+}
+
+install_python() {
+  if command -v python3 >/dev/null 2>&1; then
+    python3 --version
+    return
+  fi
+
+  export DEBIAN_FRONTEND=noninteractive
+  apt-get update
+  apt-get install -y python3
+}
+
+verify_repository() {
+  test -f index.html
+  test -f styles.css
+  python3 -m http.server --help >/dev/null
+}
+
+step "Ensure Python 3 is available" install_python
+step "Verify the static-site development environment" verify_repository

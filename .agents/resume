@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+printf '==> Verify the static-site development environment\n'
+command -v python3 >/dev/null
+test -f index.html
+test -f styles.css
