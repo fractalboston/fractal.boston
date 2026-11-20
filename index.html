@@ -159,6 +159,17 @@
             <div class="form-group">
               <input type="email" id="heroEmail" name="email" required placeholder="name@domain.com" />
             </div>
+            <div class="honeypot-field" aria-hidden="true">
+              <label for="heroWebsite">Website</label>
+              <input
+                type="text"
+                id="heroWebsite"
+                name="website"
+                tabindex="-1"
+                autocomplete="off"
+              />
+            </div>
+
             <div class="submit-button-container">
               <div class="submit-cta">
                 <button type="submit">✨ Subscribe ✨</button>
@@ -207,11 +218,11 @@
         setTimeout(() => errorMessage.remove(), 5000);
       }
 
-      async function submitSubscription(email) {
+      async function submitSubscription(email, website) {
         const response = await fetch(API_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email }),
+          body: JSON.stringify({ email, website }),
         });
 
         const data = await response.json();
@@ -248,6 +259,9 @@
             triggerJiggle(emailInput);
             return;
           }
+          const websiteInput = form.querySelector('input[name="website"]');
+          const website =
+            websiteInput instanceof HTMLInputElement ? websiteInput.value : "";
 
           const submitButton = form.querySelector('button[type="submit"]');
           submitButton.disabled = true;
@@ -261,7 +275,7 @@
           }
 
           try {
-            await submitSubscription(email);
+            await submitSubscription(email, website);
 
             formContainer.style.opacity = '0';
             formContainer.style.transition = 'opacity 0.3s ease-out';

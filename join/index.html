@@ -87,6 +87,16 @@
             <input type="email" id="email" name="email" required />
             <div id="emailSuggestion" class="email-suggestion"></div>
           </div>
+            <div class="honeypot-field" aria-hidden="true">
+              <label for="website">Website</label>
+              <input
+                type="text"
+                id="website"
+                name="website"
+                tabindex="-1"
+                autocomplete="off"
+              />
+            </div>
 
           <div class="submit-button-container">
             <div class="submit-cta">
@@ -147,6 +157,9 @@
         const confirmationMessage = document.getElementById('confirmationMessage');
         
         const email = emailInput.value.trim();
+        const websiteInput = form.querySelector('input[name="website"]');
+        const website =
+          websiteInput instanceof HTMLInputElement ? websiteInput.value : "";
 
         console.log('Submitting with email:', email);
 
@@ -174,7 +187,7 @@
           const response = await fetch(API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email })
+            body: JSON.stringify({ email, website })
           });
 
           console.log('Response status:', response.status);
