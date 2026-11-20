@@ -1165,6 +1165,16 @@ header .decorative-element {
   margin-bottom: 2rem;
 }
 
+/* Off-screen honeypot (not display:none) so automated signups may fill it. */
+.honeypot-field {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
