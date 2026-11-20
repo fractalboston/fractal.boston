@@ -75,6 +75,16 @@
           <p>Verifying your email…</p>
         </div>
 
+        <div id="confirmState" class="unsubscribe-state" style="display: none;">
+          <h2>Confirm your subscription</h2>
+          <p>Click the button below to finish signing up. This extra step keeps automated email scanners from confirming the address by accident.</p>
+          <div class="submit-button-container">
+            <div class="submit-cta">
+              <button type="button" id="confirmBtn">Confirm subscription</button>
+            </div>
+          </div>
+        </div>
+
         <div id="successState" class="unsubscribe-state confirmation-message" style="display: none;">
           <h3>Hooray, our email found you! 🎉</h3>
           <p>Welcome to the crew. We're excited to have you.</p>
@@ -121,16 +131,62 @@
         const token = normalizeToken(params.get("token") || "");
 
         const loadingState = document.getElementById("loadingState");
+        const confirmState = document.getElementById("confirmState");
+        const confirmBtn = document.getElementById("confirmBtn");
         const successState = document.getElementById("successState");
         const errorState = document.getElementById("errorState");
         const invalidState = document.getElementById("invalidState");
         const errorMessage = document.getElementById("errorMessage");
 
         function show(state) {
-          [loadingState, successState, errorState, invalidState].forEach(function (el) {
+          [loadingState, confirmState, successState, errorState, invalidState].forEach(function (el) {
             el.style.display = "none";
           });
           if (state) state.style.display = "block";
+        }
+
+        function handleResponse(res, data) {
+          if (data && data.needsConfirmation === true) {
+            show(confirmState);
+            return;
+          }
+          if (data && data.success === true && data.data && data.data.message) {
+            show(successState);
+            return;
+          }
+          if (data && data.success === false && data.error) {
+            errorMessage.textContent = data.error;
+            show(errorState);
+            return;
+          }
+          if (!res.ok) {
+            errorMessage.textContent = (data && data.error) || "Verification failed.";
+            show(errorState);
+            return;
+          }
+          errorMessage.textContent = "An unexpected response was received.";
+          show(errorState);
+        }
+
+        function verify(confirmed) {
+          const body = confirmed ? { token: token, confirmed: true } : { token: token };
+          return fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          })
+            .then(function (res) {
+              return res.json().then(function (data) {
+                return { res: res, data: data };
+              });
+            })
+            .then(function (_ref) {
+              handleResponse(_ref.res, _ref.data);
+            })
+            .catch(function (err) {
+              errorMessage.textContent = err.message || "Could not complete verification. Please try again later.";
+              show(errorState);
+            });
         }
 
         if (!token || token.trim() === "") {
@@ -138,37 +194,21 @@
           return;
         }
 
-        // Automatically verify on page load
-        fetch(API_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ token: token }),
-        })
-          .then(function (res) {
-            return res.json().then(function (data) {
-              return { res: res, data: data };
+        if (confirmBtn) {
+          confirmBtn.addEventListener("click", function () {
+            confirmBtn.disabled = true;
+            confirmBtn.textContent = "Confirming…";
+            show(loadingState);
+            verify(true).then(function () {
+              confirmBtn.disabled = false;
+              confirmBtn.textContent = "Confirm subscription";
             });
-          })
-          .then(function (_ref) {
-            var res = _ref.res;
-            var data = _ref.data;
-            if (data.success === true && data.data && data.data.message) {
-              show(successState);
-            } else if (data.success === false && data.error) {
-              errorMessage.textContent = data.error;
-              show(errorState);
-            } else if (!res.ok) {
-              errorMessage.textContent = (data && data.error) || "Verification failed.";
-              show(errorState);
-            } else {
-              errorMessage.textContent = "An unexpected response was received.";
-              show(errorState);
-            }
-          })
-          .catch(function (err) {
-            errorMessage.textContent = err.message || "Could not complete verification. Please try again later.";
-            show(errorState);
           });
+        }
+
+        // Probe first without confirmed. Outside the timing window the API
+        // still auto-verifies; inside it, the page shows the confirm button.
+        verify(false);
       })();
     </script>
   </body>
